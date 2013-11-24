@@ -2,13 +2,10 @@
 <%@page import="java.util.ArrayList"%>
 
 
-<%	
-	try 
-{		
-		String query = request.getParameter("film");
-		String json = FilmsAutoComplete.GetTitle(query);	
-		out.print(json);
-	
+<%
+	try {
+		out.print(FilmsAutoComplete.ManageAutoCompleteQueryBy(request));
+
 	} catch (Exception e) {
 		e.printStackTrace();
 	}

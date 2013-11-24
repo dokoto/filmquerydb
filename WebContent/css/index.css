@@ -1,9 +1,98 @@
-@CHARSET "UTF-8";
-
-
-.input-film
+.shape
 {
-	font-size: 30px;
-	font-family: Arial;
-	width:70%;
+    border: 0px solid #000000;
+    border-color: #000000;
+    background: #ffffff;
+    padding: 1px;
+    margin: 1px;
 }
+
+.centre
+{
+    margin-left:auto;
+    margin-right:auto;
+    width:70%;
+    text-align: center;
+}
+
+.separtor_30px
+{
+	height:30px;
+}
+
+.separtor_10px
+{
+	height:10px;
+}
+
+.search
+{
+    width: 90%;
+    height: 30px;
+}
+
+
+
+.wapper
+{
+    border-bottom-width:1px;
+    margin-top: 10px;
+    margin-left:10%;
+    width: 80%;
+	overflow:hidden;
+	float:left;
+    padding: 1px;
+    text-align: center;
+}
+
+.block1
+{
+    margin:1px;
+    width:15%;
+	float:left;
+	height:auto;
+}
+
+.block2
+{
+    margin:1px;
+    width:40%;
+    float:left;
+    height:auto;
+}
+
+.block3
+{
+    margin:1px;
+    width:40%;
+    float:left;
+    height:auto;
+}
+
+.p1
+{
+    font-weight: bold;
+    line-height: 0.5;
+    font-size: 1em;
+    font-family:arial;
+    text-align: left;
+}
+
+.p2
+{
+    font-weight: normal;
+    line-height: 0.37;
+    font-size: 0.8em;
+    font-family:arial;
+    text-align: left;
+}
+
+.p3
+{
+    font-weight: normal;
+    line-height: 1.13;
+    font-size: 0.9em;
+    font-family:arial;
+    text-align: justify;
+}
+
