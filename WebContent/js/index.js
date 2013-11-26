@@ -68,25 +68,18 @@ function buildResultLines(data) {
 	for (var i = 0; i < data.values.length; i++) {
 		var image_id = StripImageName(data.values[i].foto_mini);
 		$("#panel_result").append(
-				'<div id="line" class="shape wapper">' + '<div class="block1">'
-						+ '<img src="img/ico_film.png" id="'
-						+ image_id
-						+ '" alt="image" height="100" />'
+				'<div id="line" class="shape wapper">' 
+						+ '<div class="block1">'
+						+ '<img src="img/ico_film.png" id="' + image_id + '" alt="image"/>'
 						+ '</div>'
 						+ '<div class="block2">'
 						+ '<p class="p1">'
 						+ data.values[i].titulo
 						+ '</p>'
 						+ '<p class="p2">'
-						+ data.values[i].release_date
-						+ '</p>'
-						+ '<p class="p2">'
-						+ data.values[i].generos
-						+ '</p>'
-						+ '<p class="p2">'
-						+ data.values[i].directores
-						+ '</p>'
-						+ '<p class="p2">'
+						+ data.values[i].release_date + '<br />'
+						+ data.values[i].generos + '<br />'
+						+ data.values[i].directores + '<br />'
 						+ data.values[i].actores
 						+ '</p>'
 						+ '</div>'

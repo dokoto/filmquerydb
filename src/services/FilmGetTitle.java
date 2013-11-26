@@ -30,7 +30,7 @@ public class FilmGetTitle
 			ConfigBuilder Conf = new ConfigBuilder();
 			db = Conf.CreateRefToMongoDB();
 			db.connect();
-			return db.QueryGetData(query, type_filter_query, type_filter_rgx);
+			return db.QueryBy(query, type_filter_query, type_filter_rgx);
 		} catch (Exception e)
 		{
 			e.printStackTrace();

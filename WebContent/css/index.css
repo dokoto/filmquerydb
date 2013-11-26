@@ -34,7 +34,7 @@
 
 
 .wapper
-{
+{   
     border-bottom-width:1px;
     margin-top: 10px;
     margin-left:10%;
@@ -47,24 +47,31 @@
 
 .block1
 {
+	overflow: hidden;
+	position: relative;
     margin:1px;
-    width:15%;
+    width:auto;
 	float:left;
 	height:auto;
 }
 
+html, body {
+    height:100%;
+}
+
 .block2
-{
-    margin:1px;
-    width:40%;
+{		
+    margin:10px;
+    width:70%;
     float:left;
     height:auto;
 }
 
 .block3
 {
+	clear: both;
     margin:1px;
-    width:40%;
+    width:auto;
     float:left;
     height:auto;
 }
@@ -72,7 +79,7 @@
 .p1
 {
     font-weight: bold;
-    line-height: 0.5;
+    line-height: 1.13;
     font-size: 1em;
     font-family:arial;
     text-align: left;
@@ -81,7 +88,7 @@
 .p2
 {
     font-weight: normal;
-    line-height: 0.37;
+    line-height: 1.13;
     font-size: 0.8em;
     font-family:arial;
     text-align: left;

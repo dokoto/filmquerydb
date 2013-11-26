@@ -7,6 +7,7 @@ import utils.filters.efilterQuery;
 import utils.filters.efilterRgx;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +39,7 @@ public class FilmsAutoComplete
 			ConfigBuilder Conf = new ConfigBuilder();
 			db = Conf.CreateRefToMongoDB();
 			db.connect();
-			titles = db.QueryAutoCompleteBy(beginWith, type_filter_query, type_filter_rgx);
+			titles = new ArrayList<String>(new HashSet<String>(db.QueryAutoCompleteBy(beginWith, type_filter_query, type_filter_rgx)));
 			ObjectMapper objectMapper = new ObjectMapper();
 			Map<String, Object> mapObject = new HashMap<String, Object>();
 			mapObject.put("values", titles);
