@@ -11,8 +11,7 @@ public class FilmGetImage
 	{
 		String image = request.getParameter("image");
 		
-		return GetImage(image);
-						
+		return GetImage(image);						
 	}
 	
 	private static String GetImage(String image)

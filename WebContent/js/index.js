@@ -5,6 +5,12 @@ $(document).ready(function() {
 	$("#panel_filter").buttonset();
 	$("#panel_complete_type").buttonset();
 
+
+	$("#panel_result").on("click", "img", function() {
+		var id = $(this).attr("id");
+		
+	});
+	
 	$("#search").click(function() {
 		$(this).attr("disabled", true);
 		GetResults();
@@ -43,8 +49,8 @@ function GetImage(id_name, mongo_id_image) {
 		},
 		type : "POST",
 		dataType : "json",
-		success : function(data) {			
-			$("#" + id_name).attr("src", "data:image/jpeg;base64," + data.value);
+		success : function(data) {		
+			$("#" + id_name).attr("src", "data:image/jpeg;base64," + data.value);				
 		}
 	});
 
@@ -80,7 +86,8 @@ function buildResultLines(data) {
 						+ data.values[i].release_date + '<br />'
 						+ data.values[i].generos + '<br />'
 						+ data.values[i].directores + '<br />'
-						+ data.values[i].actores
+						+ data.values[i].actores + '<br />'
+						+ data.values[i].file_full_path
 						+ '</p>'
 						+ '</div>'
 						+ '<div class="block3">'

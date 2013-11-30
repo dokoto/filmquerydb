@@ -169,11 +169,13 @@ public class DDBB
 
 			BasicDBObject orQuery = new BasicDBObject();
 			List<BasicDBObject> orQueryParams = new ArrayList<BasicDBObject>();
-			orQueryParams.add(new BasicDBObject("titulo", java.util.regex.Pattern.compile(mk_rgx(queryTx, type_filter_rgx), Pattern.CASE_INSENSITIVE)));
+			Pattern regPattern = java.util.regex.Pattern.compile(mk_rgx(queryTx, type_filter_rgx), Pattern.CASE_INSENSITIVE);
+			
+			orQueryParams.add(new BasicDBObject("titulo", regPattern));
 			
 			BasicDBObject elemMatch = new BasicDBObject();
 			BasicDBObject elemMatchItem = new BasicDBObject();
-			elemMatchItem.put("titulo_alt", java.util.regex.Pattern.compile(mk_rgx(queryTx, type_filter_rgx), Pattern.CASE_INSENSITIVE));
+			elemMatchItem.put("titulo_alt", regPattern);
 			elemMatch.put("$elemMatch", elemMatchItem);
 			orQueryParams.add(new BasicDBObject("titulos_alternativos", elemMatch));
 			
@@ -192,13 +194,13 @@ public class DDBB
 				value.put("titulo", rootObj.get("titulo").toString());
 
 				// GENEROS
-				value.put("generos", mgdbGetSubArray(rootObj, "generos", 3));
+				value.put("generos", mgdbGetSubArray(rootObj, "generos", 3, regPattern));
 
 				// DIRECTORES
-				value.put("directores", mgdbGetSubArray(rootObj, "directores", 2));
+				value.put("directores", mgdbGetSubArray(rootObj, "directores", 2, regPattern));
 
 				// ACTORES
-				value.put("actores", mgdbGetSubArray(rootObj, "actores", 3));
+				value.put("actores", mgdbGetSubArray(rootObj, "actores", 3, regPattern));
 
 				// FECHA DE ESTRENO
 				value.put("release_date", rootObj.get("release_date").toString());
@@ -209,6 +211,10 @@ public class DDBB
 				// CLAVE IMAGENES
 				value.put("foto_mini", rootObj.get("foto_mini").toString());
 				value.put("foto_maxi", rootObj.get("foto_maxi").toString());
+				
+				// ATRIBUTOS DE FICHERO
+				DBObject subItem = (DBObject) rootObj.get("fileAttributes");
+				value.put("file_full_path", subItem.get("file_full_path").toString());				
 
 				values.add(value);
 			}
@@ -238,7 +244,10 @@ public class DDBB
 			final String collection_name = "films";
 			DBCollection coll = db_handle.getCollection(collection_name);
 			db_handle.setWriteConcern(WriteConcern.SAFE);
-			BasicDBObject query = new BasicDBObject(type_filter_query.toString(), java.util.regex.Pattern.compile(mk_rgx(queryTx, type_filter_rgx), Pattern.CASE_INSENSITIVE));
+			Pattern regPattern = java.util.regex.Pattern.compile(mk_rgx(queryTx, type_filter_rgx), Pattern.CASE_INSENSITIVE);
+			Pattern regPatternAll = java.util.regex.Pattern.compile("^.*", Pattern.CASE_INSENSITIVE);
+			
+			BasicDBObject query = new BasicDBObject(type_filter_query.toString(), regPattern);
 			cursor = coll.find(query);
 			ArrayList<Map<String, Object>> values = new ArrayList<Map<String, Object>>();
 
@@ -251,13 +260,13 @@ public class DDBB
 				value.put("titulo", rootObj.get("titulo").toString());
 
 				// GENEROS
-				value.put("generos", mgdbGetSubArray(rootObj, "generos", 3));
+				value.put("generos", mgdbGetSubArray(rootObj, "generos", 3, regPatternAll));
 
 				// DIRECTORES
-				value.put("directores", mgdbGetSubArray(rootObj, "directores", 2));
+				value.put("directores", mgdbGetSubArray(rootObj, "directores", 2, regPatternAll));
 
 				// ACTORES
-				value.put("actores", mgdbGetSubArray(rootObj, "actores", 3));
+				value.put("actores", mgdbGetSubArray(rootObj, "actores", 3, regPatternAll));
 
 				// FECHA DE ESTRENO
 				value.put("release_date", rootObj.get("release_date").toString());
@@ -268,7 +277,11 @@ public class DDBB
 				// CLAVE IMAGENES
 				value.put("foto_mini", rootObj.get("foto_mini").toString());
 				value.put("foto_maxi", rootObj.get("foto_maxi").toString());
-
+				
+				// ATRIBUTOS DE FICHERO
+				DBObject subItem = (DBObject) rootObj.get("fileAttributes");
+				value.put("file_full_path", subItem.get("file_full_path").toString());
+				
 				values.add(value);
 			}
 			Map<String, Object> root = new HashMap<String, Object>();
@@ -289,16 +302,18 @@ public class DDBB
 		return null;
 	}
 
-	private ArrayList<String> mgdbGetSubArray(DBObject rootObj, String key, int limite)
+	private ArrayList<String> mgdbGetSubArray(DBObject rootObj, String key, int limite, Pattern regPattern)
 	{
 		ArrayList<String> arrayStr = new ArrayList<String>();
 		BasicDBList subCursor = (BasicDBList) rootObj.get(key);
 		limite = (limite == 0) ? subCursor.size() : limite;
 		for (int i = 0; i < subCursor.size(); i++)
 		{
+			String item = subCursor.get(i).toString();
 			if (i == limite)
 				return arrayStr;
-			arrayStr.add(subCursor.get(i).toString());
+			if (regPattern.matcher(item).find())
+				arrayStr.add(item);
 		}
 
 		return arrayStr;	
@@ -316,11 +331,13 @@ public class DDBB
 
 			BasicDBObject orQuery = new BasicDBObject();
 			List<BasicDBObject> orQueryParams = new ArrayList<BasicDBObject>();
-			orQueryParams.add(new BasicDBObject("titulo", java.util.regex.Pattern.compile(mk_rgx(Query, type_filter_rgx), Pattern.CASE_INSENSITIVE)));
+			Pattern regPattern = java.util.regex.Pattern.compile(mk_rgx(Query, type_filter_rgx), Pattern.CASE_INSENSITIVE);
+			
+			orQueryParams.add(new BasicDBObject("titulo", regPattern));
 			
 			BasicDBObject elemMatch = new BasicDBObject();
 			BasicDBObject elemMatchItem = new BasicDBObject();
-			elemMatchItem.put("titulo_alt", java.util.regex.Pattern.compile(mk_rgx(Query, type_filter_rgx), Pattern.CASE_INSENSITIVE));
+			elemMatchItem.put("titulo_alt", regPattern);
 			elemMatch.put("$elemMatch", elemMatchItem);
 			orQueryParams.add(new BasicDBObject("titulos_alternativos", elemMatch));
 			
@@ -332,7 +349,10 @@ public class DDBB
 				DBObject objDb = cursor.next(); 
 				o = objDb.get("titulo");
 				if (null != o)
-					result.add(o.toString());								
+				{
+					if (regPattern.matcher(o.toString()).find())
+						result.add(o.toString());	
+				}
 				
 				ObjectMapper mapper = new ObjectMapper();
 				JsonNode jsonArray = mapper.readTree(objDb.get("titulos_alternativos").toString());
@@ -340,8 +360,7 @@ public class DDBB
 				{
 					for(int i = 0; i < jsonArray.size(); i++)		
 					{
-						Matcher matcher = Pattern.compile(mk_rgx(Query, type_filter_rgx), Pattern.CASE_INSENSITIVE).matcher(jsonArray.get(i).path("titulo_alt").asText());
-						if (matcher.find())
+						if (regPattern.matcher(jsonArray.get(i).path("titulo_alt").asText()).find())
 							result.add(jsonArray.get(i).path("titulo_alt").asText());
 					}
 				}
@@ -398,11 +417,12 @@ public class DDBB
 			final String collection_name = "films";
 			DBCollection coll = db_handle.getCollection(collection_name);
 			db_handle.setWriteConcern(WriteConcern.SAFE);
-			BasicDBObject query = new BasicDBObject(type_filter_query.toString(), java.util.regex.Pattern.compile(mk_rgx(Query, type_filter_rgx), Pattern.CASE_INSENSITIVE));
+			Pattern regPattern = java.util.regex.Pattern.compile(mk_rgx(Query, type_filter_rgx), Pattern.CASE_INSENSITIVE);
+			BasicDBObject query = new BasicDBObject(type_filter_query.toString(), regPattern);
 			cursor = coll.find(query);
 			while (cursor.hasNext())
 			{
-				result.addAll(mgdbGetSubArray(cursor.next(), type_filter_query.toString(), 0));
+				result.addAll(mgdbGetSubArray(cursor.next(), type_filter_query.toString(), 0, regPattern));
 			}
 
 		} catch (Exception e)
