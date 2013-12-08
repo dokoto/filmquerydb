@@ -21,5 +21,6 @@
 	<classpathentry kind="lib" path="lib/jackson-core-2.2.3.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-databind-2.2.3.jar"/>
 	<classpathentry kind="lib" path="lib/mongo-java-driver-2.11.3.jar"/>
+	<classpathentry kind="lib" path="lib/plexus-utils-3.0.15.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
