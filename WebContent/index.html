@@ -1,3 +1,9 @@
+<!-- 
+El sistema FilmSyncDB y FilmQueryDb funciona con las siguientes dependecias
+java version "1.7.0_45"
+mongodb 2.4.8
+ -->
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -9,6 +15,7 @@
 		<link rel="stylesheet" href="css/index.css" />
 		<script src="js/jquery-1.9.1.js"></script>
 		<script src="js/jquery-ui-1.10.3.custom.js"></script>
+		<script src="js/jquery.fileDownload.js"></script>
 		<script src="js/index.js"></script>
 	
 	
@@ -16,15 +23,19 @@
 
 	<body>
 		<div id="page">
-				<div class="shape separtor_30px"></div>
+		
+				<div class="shape separtor_30px">
+				</div>
 				
 			    <div id="panel_filter" class="shape centre">
+			    
 			        <input type="radio" id="rb_titulo" class="filters_group" name="filters_group" checked="checked" value="rb_titulo" /><label for="rb_titulo">Titulo</label>
 			        <input type="radio" id="rb_director" class="filters_group" name="filters_group" value="rb_director" /><label for="rb_director">Director</label>
 			        <input type="radio" id="rb_actor" class="filters_group" name="filters_group" value="rb_actor" /><label for="rb_actor">Actor</label>
 			        <input type="radio" id="rb_genero" class="filters_group" name="filters_group" value="rb_genero" /><label for="rb_genero">Genero</label>
 			        <input type="radio" id="rb_fecha_estreno" class="filters_group" name="filters_group" value="rb_fecha_estreno" /><label for="rb_fecha_estreno">Fecha Estreno</label>
-			    </div>			   
+			        
+			    </div>
 			    
 			    <div class="shape separtor_30px"></div>
 			    
@@ -36,8 +47,10 @@
 			    <div class="shape separtor_10px"></div>
 			    
 				<div id="panel_complete_type" class="shape centre">
+				
 			        <input type="radio" id="rb_rx_begin" class="filters_group_type" name="filters_group_type" checked="checked" value="rb_rx_begin" /><label for="rb_rx_begin">Rgx::Al inicio</label>
 			        <input type="radio" id="rb_rx_anywhere" class="filters_group_type" name="filters_group_type" value="rb_rx_anywhere" /><label for="rb_rx_anywhere">Rgx::En cualquier sitio</label>
+			        
 			    </div>
 			    
 			    <div class="shape separtor_10px"></div>
@@ -45,6 +58,7 @@
 			    <div id="panel_result">
 			    				    	
 			    </div>
+
 			</div>
 	</body>
 

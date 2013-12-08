@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
@@ -170,6 +169,7 @@ public class DDBB
 			BasicDBObject orQuery = new BasicDBObject();
 			List<BasicDBObject> orQueryParams = new ArrayList<BasicDBObject>();
 			Pattern regPattern = java.util.regex.Pattern.compile(mk_rgx(queryTx, type_filter_rgx), Pattern.CASE_INSENSITIVE);
+			Pattern regPatternAll = java.util.regex.Pattern.compile("^.*", Pattern.CASE_INSENSITIVE);
 			
 			orQueryParams.add(new BasicDBObject("titulo", regPattern));
 			
@@ -194,13 +194,13 @@ public class DDBB
 				value.put("titulo", rootObj.get("titulo").toString());
 
 				// GENEROS
-				value.put("generos", mgdbGetSubArray(rootObj, "generos", 3, regPattern));
+				value.put("generos", mgdbGetSubArray(rootObj, "generos", 3, regPatternAll));
 
 				// DIRECTORES
-				value.put("directores", mgdbGetSubArray(rootObj, "directores", 2, regPattern));
+				value.put("directores", mgdbGetSubArray(rootObj, "directores", 2, regPatternAll));
 
 				// ACTORES
-				value.put("actores", mgdbGetSubArray(rootObj, "actores", 3, regPattern));
+				value.put("actores", mgdbGetSubArray(rootObj, "actores", 3, regPatternAll));
 
 				// FECHA DE ESTRENO
 				value.put("release_date", rootObj.get("release_date").toString());

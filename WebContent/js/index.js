@@ -6,9 +6,46 @@ $(document).ready(function() {
 	$("#panel_complete_type").buttonset();
 
 
+	$("#panel_result").on("mouseenter", "img", function() {
+		var id = $(this).attr("id");
+		id = id.substr(id.indexOf("_")+1);
+		$("#thumb_" + id).hide();
+		$("#play_" + id).show();
+		
+	});	
+	
+	$("#panel_result").on("mouseleave", "img", function() {
+		var id = $(this).attr("id");
+		id = id.substr(id.indexOf("_")+1);
+		$("#play_" + id).hide();
+		$("#thumb_" + id).show();
+	});
+	
 	$("#panel_result").on("click", "img", function() {
 		var id = $(this).attr("id");
-		
+		id = id.substr(0, id.indexOf("_"));
+		var path = $(this).parent().parent().parent().find("#path").text();
+		if (id == "play")
+		{
+			$.ajax({
+				url : "playFilm.jsp",
+				data : {
+					path : path
+				},
+				type : "POST",
+				dataType : "json",
+				success : function(data) {		
+					$.fileDownload(data.url, {
+				        preparingMessageHtml: "We are preparing your report, please wait...",
+				        failMessageHtml: "There was a problem generating your report, please try again."
+				    });
+				},
+				error: function(result, status, err) {
+			        log("Error loading data");
+			        return;
+			    }
+			});
+		}
 	});
 	
 	$("#search").click(function() {
@@ -24,6 +61,7 @@ $(document).ready(function() {
 
 		}
 	});
+
 
 });
 
@@ -76,7 +114,8 @@ function buildResultLines(data) {
 		$("#panel_result").append(
 				'<div id="line" class="shape wapper">' 
 						+ '<div class="block1">'
-						+ '<img src="img/ico_film.png" id="' + image_id + '" alt="image"/>'
+						+ '<img class ="thumb" src="img/ico_film.png" id="thumb_' + image_id + '" alt="thumb_image"/>'
+						+ '<a href="#"><img class="opacy" src="img/video-play.png" id="play_' + image_id + '" alt="play_image"/></a>'
 						+ '</div>'
 						+ '<div class="block2">'
 						+ '<p class="p1">'
@@ -87,7 +126,7 @@ function buildResultLines(data) {
 						+ data.values[i].generos + '<br />'
 						+ data.values[i].directores + '<br />'
 						+ data.values[i].actores + '<br />'
-						+ data.values[i].file_full_path
+						+ '<span id="path">' + data.values[i].file_full_path + '</span>'
 						+ '</p>'
 						+ '</div>'
 						+ '<div class="block3">'
@@ -96,8 +135,10 @@ function buildResultLines(data) {
 						+ '</p>'
 						+ '</div>'
 						+ '</div>');
-		GetImage(image_id, data.values[i].foto_mini);
-	}
+		
+		$("#" + "play_" + image_id).hide();
+		GetImage("thumb_" + image_id, data.values[i].foto_mini);		
+	}	
 	$("#film").attr("disabled", false);
 	$("#search").attr("disabled", false);
 }
