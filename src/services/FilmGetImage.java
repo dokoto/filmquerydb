@@ -10,23 +10,24 @@ public class FilmGetImage
 	public static String ManageImageQuery(HttpServletRequest request)
 	{
 		String image = request.getParameter("image");
+		ConfigBuilder GlobConf = (ConfigBuilder)request.getSession().getAttribute("GlobConf");
 		
-		return GetImage(image);						
+		return GetImage(GlobConf, image);						
 	}
 	
-	private static String GetImage(String image)
+	private static String GetImage(ConfigBuilder Conf, String image)
 	{
 		DDBB db = null;
 
 		try
 		{
-			ConfigBuilder Conf = new ConfigBuilder();
 			db = Conf.CreateRefToMongoDB();
 			db.connect();
 			return db.GetImageQuery(image);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+			Conf.Log().severe(e.toString());
 			return new String();
 		} finally
 		{

@@ -4,9 +4,8 @@
 
 
 <%
-	try {
+	try {		
 		out.print(FilmsAutoComplete.ManageAutoCompleteQueryBy(request));
-
 	} catch (Exception e) {
 		e.printStackTrace();
 	}

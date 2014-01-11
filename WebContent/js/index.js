@@ -3,7 +3,8 @@ var globs = {
 };
 
 $(document).ready(function()
-{
+{	
+	OnLoadInitConfigBackEnd();
 	$("#film").attr("disabled", false);
 	$("#search").attr("disabled", false);
 	autoCompleteTitle();
@@ -126,6 +127,18 @@ function GetImage(id_name, mongo_id_image)
 	});
 
 }
+
+function OnLoadInitConfigBackEnd()
+{
+	$.ajax({
+		url : "InitConfigBackEnd.jsp",
+		data : {},
+		type : "POST",
+		dataType : "json",
+		success : function(data){}
+	});
+}
+
 
 function ImageExist(url)
 {
