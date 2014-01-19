@@ -35,6 +35,11 @@ public class ConfigBuilder
 		return log;
 	}
 
+	public String LogPath() throws Exception
+	{
+		return Get("log_path");
+	}
+	
 	public DDBB GetRefToMongoDB() throws Exception
 	{
 		return db;
